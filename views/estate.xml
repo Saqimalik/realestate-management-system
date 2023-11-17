@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="estate_tree" model="ir.ui.view">
+        <field name="name">real.estate.tree</field>
+        <field name="model">real.estate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="responsible_id"/>
+                <field name="gender"/>
+                <field name="age"/>
+                <field name="note"/>
+                <field name="state"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="estate_form" model="ir.ui.view">
+        <field name="name">real.estate.form</field>
+        <field name="model">real.estate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+                    <button name="action_done" type="object" string="Done" class="oe_highlight"
+                            attrs="{'invisible': [('state','!=', 'confirm')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,confirm"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="responsible_id"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="customer_search" model="ir.ui.view">
+        <field name="name">real.estate.search</field>
+        <field name="model">real.estate</field>
+        <field name="arch" type="xml">
+            <search string="customer">
+                <field name="name"/>
+                <field name="note"/>
+
+                <filter string="Male" name="male" domain="[('gender' , '=' , 'male')]"/>
+                <filter string="Female" name="female" domain="[('gender' , '=' , 'female')]"/>
+                <filter string="Other" name="other" domain="[('gender' , '=' , 'other')]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Gender" name="gender" context="{'group_by': 'gender'}"/>
+                    <filter string="Custommer Name" name="Customer_name" context="{'group_by': 'name'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="estate_action" model="ir.actions.act_window">
+        <field name="name">Estate</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">real.estate</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Slip!
+            </p>
+
+
+        </field>
+    </record>
+
+    <menuitem id="estate_root"
+              name="Real Estate"
+              sequence="10"/>
+    <menuitem id="real_estate_root"
+              name="Customer"
+              parent="estate_root"
+              sequence="10"/>
+    <menuitem id="real_estate"
+              name="Customer"
+              parent="real_estate_root"
+              action="estate_action"
+              sequence="10"/>
+
+
+</odoo>
